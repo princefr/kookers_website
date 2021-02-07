@@ -10,7 +10,7 @@ function FeaturesBlocks() {
                     {/* Section header */}
                     <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
                         <h2 className="text-3xl tracking-tight font-extrabold text-gray-800 sm:text-4xl md:text-4xl">Comment ça fonctionne</h2>
-                        <p className="text-xl text-gray-600 py-5">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat. </p>
+                        <p className="text-xl text-gray-600 py-5">Kookers vous met en relation avec des talents de la cuisine habitant non loin de vous.</p>
                     </div>
 
                     <div className="mt-10">
@@ -29,7 +29,7 @@ function FeaturesBlocks() {
                                         Commandez.
             </dt>
                                     <dd className="mt-2 text-base text-gray-500">
-                                        Commandez des plats maison en fonction de vos préferences alimentaires, commandez à l'avance pour que les chefs puissent acheter des ingrédients frais.
+                                        Commandez des plats maison en fonction de vos préférences alimentaires, commandez à l'avance pour que les chefs puissent acheter des ingrédients frais.
             </dd>
                                 </div>
                             </div>
@@ -47,7 +47,7 @@ function FeaturesBlocks() {
                                         Retirez ou faites vous livrer.
             </dt>
                                     <dd className="mt-2 text-base text-gray-500">
-                                    Retirez votre commande chez le chef kookers à proximité de chez vous ou si elle est proposée, bénéficiez d'une livraison à domicile.
+                                    Retirez votre commande chez le chef kookers à proximité de  vous ou si elle est proposée, bénéficiez d'une livraison à domicile.
             </dd>
                                 </div>
                             </div>
@@ -63,10 +63,10 @@ function FeaturesBlocks() {
                                 </div>
                                 <div className="ml-4">
                                     <dt className="text-lg leading-6 font-medium text-gray-900">
-                                        Dégustez et répetez
+                                        Dégustez et recommencez
             </dt>
                                     <dd className="mt-2 text-base text-gray-500">
-                                    Dégustez votre plat ou votre dessert en toute quiétude, satifisait ? recommencez!
+                                    Dégustez votre plat ou votre dessert en toute quiétude, satisfait ? recommencez !
             </dd>
                                 </div>
                             </div>
