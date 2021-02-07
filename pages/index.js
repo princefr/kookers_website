@@ -14,7 +14,7 @@ function HomePage(){
       <Head>
          <title>Kookers - Des plats par des chefs amateurs pour des bouches gourmandes</title>
          <meta name="description" content="Kookers est une application qui met en relation des amoureux de la cuisine avec des bouches gourmandes qui souhaitent déguster des repas preparés par des talents près de chez eux."></meta>
-         <meta name="keywords" content="chefs à domicile, fait maison"></meta>
+         <meta name="keywords" content="chefs à domicile, fait maison, chef, chef cuisinier, cuisinier à domicile, fondue bourguignonne"></meta>
          {/* <!-- Open Graph meta pour Facebook --> */}
         <meta property="og:title" content="Kookers - Des plats par des chefs amateurs pour des bouches gourmandes" />
         <meta property="og:url" content="http://www.getkookers.com" />

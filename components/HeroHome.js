@@ -20,7 +20,7 @@ export default function HeroHome() {
                                 <div className="flex items-center justify-between w-full md:w-auto">
                                 <a href="/">
                                         <span className="sr-only">Kookers</span>
-                                        <img className="h-8 w-auto sm:h-12" src="assets/logo_black.svg"/>
+                                        <img className="h-8 w-auto sm:h-12" src="assets/logo_black.svg" alt="kookers logo"/>
                                     </a>
                                 </div>
                             </div>
@@ -46,12 +46,12 @@ export default function HeroHome() {
                                 <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                                     <div className="">
                                         <a href="#" className="w-full flex items-center justify-center px-2 py-3">
-                                            <img className="object-contain h-14" src="assets/google-play-badge.png"></img>
+                                            <img className="object-contain h-14" src="assets/google-play-badge.png" alt="kookers play store badge"></img>
                                         </a>
                                     </div>
                                     <div className="">
                                         <a href="#" className="w-full flex items-center justify-center px-2 py-5">
-                                            <img className="object-contain h-10" src="assets/Group.svg"></img>
+                                            <img className="object-contain h-10" src="assets/Group.svg" alt="kookers app store badge"></img>
                                         </a>
                                     </div>
 
@@ -62,7 +62,7 @@ export default function HeroHome() {
                     </div>
                 </div>
                 <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-                    <img className="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="assets/cooking.jpg" alt="" />
+                    <img className="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="assets/cooking.jpg" alt="cooking image" />
                 </div>
             </div>
         </div>

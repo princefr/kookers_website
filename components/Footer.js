@@ -15,7 +15,7 @@ function Footer() {
               {/* Logo */}
                 <a href="/">
                     <span className="sr-only">Kookers</span>
-                    <img className="h-8 w-auto sm:h-12" src="assets/logo_black.svg"/>
+                    <img className="h-8 w-auto sm:h-12" src="assets/logo_black.svg" alt="kookers logo"/>
                 </a>
               
             </div>
@@ -27,12 +27,12 @@ function Footer() {
             <div className="mt-1 sm:mt-8 sm:flex">
                 <div className="">
                     <a href="#" className="w-full flex items-center justify-center px-0 py-0">
-                        <img className="object-contain h-14" src="assets/google-play-badge.png"></img>
+                        <img className="object-contain h-14" src="assets/google-play-badge.png" alt="kookers google play badge"></img>
                     </a>
                 </div>
                 <div className="">
                     <a href="#" className="w-full flex items-center justify-center px-2 py-2">
-                        <img className="object-contain h-10" src="assets/Group.svg"></img>
+                        <img className="object-contain h-10" src="assets/Group.svg" alt="kookers app store badge"></img>
                     </a>
                 </div>
             </div>
