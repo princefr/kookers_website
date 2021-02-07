@@ -25,7 +25,7 @@ function HomePage(){
 
 
         {/* <!-- Card meta pour Twitter --> */}
-        {/* <meta name="twitter:card" content="summary_large_image" /> */}
+        <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@getkookers"/>
         <meta name="twitter:title" content="Kookers - Des plats par des chefs amateurs pour des bouches gourmandes" />
         <meta name="twitter:description" content="Kookers est une application qui met en relation des amoureux de la cuisine avec des bouches gourmandes qui souhaitent déguster des repas preparés par des talents près de chez eux." />
