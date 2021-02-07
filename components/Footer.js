@@ -14,8 +14,8 @@ function Footer() {
             <div className="mb-2">
               {/* Logo */}
                 <a href="/">
-                    <span class="sr-only">Kookers</span>
-                    <img class="h-8 w-auto sm:h-12" src="assets/logo_black.svg"/>
+                    <span className="sr-only">Kookers</span>
+                    <img className="h-8 w-auto sm:h-12" src="assets/logo_black.svg"/>
                 </a>
               
             </div>
@@ -24,15 +24,15 @@ function Footer() {
                   Kookers met en relation des chefs amateurs avec des gourmands souhaitant deguster leur plats fait maison.
               </p>
             </div>
-            <div class="mt-1 sm:mt-8 sm:flex">
-                <div class="">
-                    <a href="#" class="w-full flex items-center justify-center px-0 py-0">
-                        <img class="object-contain h-14" src="assets/google-play-badge.png"></img>
+            <div className="mt-1 sm:mt-8 sm:flex">
+                <div className="">
+                    <a href="#" className="w-full flex items-center justify-center px-0 py-0">
+                        <img className="object-contain h-14" src="assets/google-play-badge.png"></img>
                     </a>
                 </div>
-                <div class="">
-                    <a href="#" class="w-full flex items-center justify-center px-2 py-2">
-                        <img class="object-contain h-10" src="assets/Group.svg"></img>
+                <div className="">
+                    <a href="#" className="w-full flex items-center justify-center px-2 py-2">
+                        <img className="object-contain h-10" src="assets/Group.svg"></img>
                     </a>
                 </div>
             </div>
