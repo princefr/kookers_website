@@ -54,9 +54,9 @@ export default function HeroHome() {
                                             <img className="object-contain h-10" src="assets/Group.svg" alt="kookers app store badge"></img>
                                         </a>
                                     </div>
-
-
                                 </div>
+
+                                <p className="px-5">Lancement: 15 Fevrier 2021*</p>
                             </div>
                         </main>
                     </div>
