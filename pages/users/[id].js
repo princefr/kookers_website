@@ -13,7 +13,7 @@ import { gql } from '@apollo/client';
                   <div className="flex flex-row h-96 justify-center relative">
                     <img className="max-h-80 w-full opacity-80 absolute top-0 object-cover rounded-md"  src="https://unsplash.com/photos/EzH46XCDQRY/download?force=true&w=640" alt="" />
                     <div className="flex justify-center">
-                      <img className="h-32 w-32 object-center rounded-full ring-4 ring-white absolute bottom-0 shadow-sm object-fill" src={user.photoUrl} alt=""/>
+                      <img className="h-32 w-32 object-center rounded-full ring-4 ring-white absolute bottom-0 shadow-sm" src={user.photoUrl} alt=""/>
                     </div>
                   </div>
                   <div className="justify-center py-6 space-y-0.5 text-center">

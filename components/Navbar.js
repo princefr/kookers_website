@@ -8,7 +8,7 @@ export default function Navbar(){
                 <div className="flex flex-row justify-between">
                 <div>
                     <a href="/" className="w-full flex items-center justify-center">
-                        <img className="object-contain h-8" src="assets/logo_black.svg"/>
+                        <img className="h-8" src="assets/logo_black.svg"/>
                     </a>
                 </div>
 
