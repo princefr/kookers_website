@@ -6,10 +6,11 @@ export default function Navbar(){
         <div class="mx-auto  p-6">
             <nav class="flex-row md:justify-between">
                 <div class="flex flex-row justify-between">
-                <a href="/">
-                    <span class="sr-only">Kookers</span>
-                    <img class="h-8 w-auto sm:h-12" src="assets/logo_black.svg"/>
-                </a>
+                <div>
+                    <a href="/" class="w-full flex items-center justify-center">
+                        <img class="object-contain h-8" src="assets/logo_black.svg"/>
+                    </a>
+                </div>
 
 
                 </div>
