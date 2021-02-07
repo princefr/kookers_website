@@ -44,7 +44,7 @@ export default function HeroHome() {
                                 </p>
 
                                 <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-                                    <div className="">
+                                    {/* <div className="">
                                         <a href="#" className="w-full flex items-center justify-center px-2 py-3">
                                             <img className="object-contain h-14" src="assets/google-play-badge.png"></img>
                                         </a>
@@ -53,7 +53,9 @@ export default function HeroHome() {
                                         <a href="#" className="w-full flex items-center justify-center px-2 py-5">
                                             <img className="object-contain h-10" src="assets/Group.svg"></img>
                                         </a>
-                                    </div>
+                                    </div> */}
+
+                                    
                                 </div>
                             </div>
                         </main>

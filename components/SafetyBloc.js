@@ -12,9 +12,9 @@ function SafetyBloc() {
                     <img className="h-80 rounded-full object-cover" src="assets/gloves.jpg"></img>
                 </div>
                 <div className="flex">
-                    <div classNameName="max-w-3xl mx-auto text-center pb-12 md:pb-20 py-20">
+                    <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20 py-20">
                             <h2 className="text-3xl tracking-tight font-extrabold text-gray-800 sm:text-3xl md:text-3xl">Sécurité alimentaire</h2>
-                            <p classNameName="text-xl text-gray-600 py-5">La sécurité de la communauté kookers est notre priorité,  Tous nos chefs amateurs s'engagent à suivre  nos conseils de sécurité, ils sont tenus de porter des masques, des gants et des filets à cheveux lorsqu'ils préparent vos plats. </p>
+                            <p className="text-xl text-gray-600 py-5">La sécurité de la communauté kookers est notre priorité,  Tous nos chefs amateurs s'engagent à suivre  nos conseils de sécurité, ils sont tenus de porter des masques, des gants et des filets à cheveux lorsqu'ils préparent vos plats. </p>
                     </div>
                 </div>
                 </div>
