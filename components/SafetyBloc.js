@@ -10,7 +10,7 @@ function SafetyBloc() {
             <div class="mt-10">
                 <div class="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
                 <div class="flex">
-                    <img class="h-120 rounded-full" src="assets/gloves.jpg"></img>
+                    <img class="h-120 rounded-full object-contain" src="assets/gloves.jpg"></img>
                 </div>
                 <div class="flex">
                     <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20 py-20">
