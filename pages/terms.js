@@ -172,9 +172,17 @@ L'Éditeur s'engage à ne pas transférer les données personnelles de ses Utili
                   
               </div>
 
+              <div className="py-5">
+                <h2 className="text-lg font-bold py-6 text-gray-600">14. Paiements </h2>
+
+                  <p>Le traitement des transactions pour les clients ou les chefs sur kookers sont effectués par Stripe et sont soumis à l'acceptation des conditions de service et d'utilisation Stripe. En acceptant nos présentes conditions d'utilisation, vous acceptez aussi les conditions d'utilisation de Stripe. Comme condition pour que Kookers puisse offrir des services de traitement des paiements par l'intermédiaire de Stripe, vous acceptez de fournir à Kookers. </p>
+
+                  
+              </div>
+
 
               <div className="py-5">
-                <h2 className="text-lg font-bold py-6 text-gray-600">14. Modification des CGU et de la politique de confidentialité </h2>
+                <h2 className="text-lg font-bold py-6 text-gray-600">15. Modification des CGU et de la politique de confidentialité </h2>
 
                   <p>En cas de modification des présentes CGU, engagement de ne pas baisser le niveau de confidentialité de manière substantielle sans l'information préalable des personnes concernées
 Nous nous engageons à vous informer en cas de modification substantielle des présentes CGU, et à ne pas baisser le niveau de confidentialité de vos données de manière substantielle sans vous en informer et obtenir votre consentement.</p>
