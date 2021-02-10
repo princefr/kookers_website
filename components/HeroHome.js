@@ -13,7 +13,6 @@ export default function HeroHome() {
                             <polygon points="50,0 100,0 50,100 0,100" />
                     </svg>
                     
-
                     <div className="relative pt-6 px-4 sm:px-6 lg:px-8">
                         <nav className="relative flex items-center justify-between sm:h-10 lg:justify-start" aria-label="Global">
                             <div className="flex items-center flex-grow flex-shrink-0 lg:flex-grow-0">
@@ -36,7 +35,7 @@ export default function HeroHome() {
                                 <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
                                     <span className="block">Des plats authentiques.</span>
                                     <span className="block text-red-700">Fait maison.</span>
-                                    <span className="block text-red-700 xl:inline">Avec amour.</span>
+                                    <span className="block text-red-700 xl:inline">Livré.</span>
                                 </h1>
 
                                 <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
