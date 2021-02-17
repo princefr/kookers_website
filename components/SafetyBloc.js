@@ -9,7 +9,7 @@ function SafetyBloc() {
             <div className="mt-10">
                 <div className="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
                 <div className="flex">
-                    <img className="h-80 rounded-full object-cover" src="assets/gloves.jpg" alt="gloves images"></img>
+                    <img className="h-80 rounded-full object-cover" src="assets/Person_with_medical_mask-pana.png" alt="safety images"></img>
                 </div>
                 <div className="flex">
                     <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20 py-20">
