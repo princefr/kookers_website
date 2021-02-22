@@ -93,7 +93,7 @@ function Footer() {
                 <a href="#" className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">Gestion des cookies</a>
               </li>
               <li className="mb-2">
-                <a href="#" className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">Politique de confidentialité</a>
+                <a href="/privacy" className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">Politique de confidentialité</a>
               </li>
               <li className="mb-2">
                 <a href="#" className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out">À propos de nous</a>
