@@ -44,7 +44,7 @@ export default function HeroHome() {
 
                                 <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                                     <div className="">
-                                        <a href="#" className="w-full flex items-center justify-center px-2 py-3">
+                                        <a href="https://play.google.com/store/apps/details?id=com.getkookers.android" className="w-full flex items-center justify-center px-2 py-3">
                                             <img className="object-contain h-14" src="assets/google-play-badge.png" alt="kookers play store badge"></img>
                                         </a>
                                     </div>
@@ -54,8 +54,6 @@ export default function HeroHome() {
                                         </a>
                                     </div>
                                 </div>
-
-                                <p className="px-5">Lancement: 15 Fevrier 2021*</p>
                             </div>
                         </main>
                     </div>
