@@ -49,7 +49,7 @@ export default function HeroHome() {
                                         </a>
                                     </div>
                                     <div className="">
-                                        <a href="#" className="w-full flex items-center justify-center px-2 py-5">
+                                        <a href="https://apps.apple.com/us/app/kookers-cuisine-authentique/id1529436130" className="w-full flex items-center justify-center px-2 py-5">
                                             <img className="object-contain h-10" src="assets/Group.svg" alt="kookers app store badge"></img>
                                         </a>
                                     </div>
