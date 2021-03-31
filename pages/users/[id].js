@@ -3,7 +3,7 @@ import client from '../../Helpers/GraphQLClient';
 import { gql } from '@apollo/client';
 
 
-  function User({ user }) {
+  function User({user}) {
 
       return (
           <div className="flex flex-row h-screen px-96">

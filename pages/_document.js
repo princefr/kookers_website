@@ -2,6 +2,9 @@ import Document, { Html, Head, Main, NextScript } from 'next/document'
 
 import { GA_TRACKING_ID } from '../Helpers/Gtag'
 
+
+
+
 export default class MyDocument extends Document {
   render() {
     return (
@@ -12,6 +15,7 @@ export default class MyDocument extends Document {
             async
             src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
           />
+          <script src="https://js.stripe.com/v3/"></script>
           <script
             dangerouslySetInnerHTML={{
               __html: `
