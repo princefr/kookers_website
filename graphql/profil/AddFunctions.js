@@ -2,9 +2,9 @@ import gql from "graphql-tag";
 
 
 
-export const TOOGLE_ONNLINE = gql`
-    mutation ToogleOnline($firebaseUid: String!){
-        toogleOnline(firebaseUid: $firebaseUid){
+export const TOOGLE_ONLINE = gql`
+    mutation ToogleOnline($firebaseUid: String!, $isOnline: Boolean){
+        toogleOnline(firebaseUid: $firebaseUid, isOnline: $isOnline){
             _id
             email
             first_name
@@ -20,7 +20,7 @@ export const TOOGLE_ONNLINE = gql`
             notificationPermission
             fee
             is_online
-  
+    
             settings {
                 food_preferences
                 food_price_ranges
@@ -28,20 +28,21 @@ export const TOOGLE_ONNLINE = gql`
                 distance_from_seller
                 updatedAt
             }
-  
+    
             stripeAccount {
-              charges_enabled
-              payouts_enabled
-              requirements {
+                charges_enabled
+                payouts_enabled
+                requirements {
                     currently_due
                     eventually_due
                     past_due
                     pending_verification
                     disabled_reason
                     current_deadline
-              }
+                }
             }
-  
+    
+    
             createdAt
             photoUrl
             updatedAt
