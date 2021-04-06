@@ -4,6 +4,7 @@ import Nav from "../../components/nav"
 import { useContext } from 'react'
 import { DataInBuyerContext } from '../../utils/DataInBuyerContext'
 import CancelOrderButton from '../../components/buttons/CancelOrderButton'
+import { AuthAction, withAuthUser, withAuthUserTokenSSR } from 'next-firebase-auth'
 // import Chip from '../../components/chips'
 
 
@@ -125,6 +126,20 @@ function Order() {
     )
 }
 
+export const getServerSideProps = withAuthUserTokenSSR({
+    whenAuthed: AuthAction.RENDER,
+    whenUnauthed: AuthAction.REDIRECT_TO_LOGIN
+  })(async ({AuthUser}) => {
+      return {
+        props: {
+            auth_id: AuthUser.id
+        }
+      }
+  })
 
 
-export default Order
+
+export default withAuthUser({whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN, whenUnauthed: AuthAction.REDIRECT_TO_LOGIN})(Order)
+
+
+
