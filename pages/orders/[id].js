@@ -3,6 +3,7 @@ import Head from 'next/head'
 import Nav from "../../components/nav"
 import { useContext } from 'react'
 import { DataInBuyerContext } from '../../utils/DataInBuyerContext'
+import CancelOrderButton from '../../components/buttons/CancelOrderButton'
 // import Chip from '../../components/chips'
 
 
@@ -75,9 +76,7 @@ function Order() {
                                                 <svg className="w-6 h-6 mx-1 my-1 text-green-100" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
                                             </div>
                                         </div>
-                                        <button className="text-white p-2 bg-red-600 font-montserrat px-4">
-                                            Annuler
-                                        </button>
+                                        <CancelOrderButton order={pageBuyer}></CancelOrderButton>
                                     </div>
                                 </div>
 

@@ -5,10 +5,11 @@ import CreditCardSelector from "./CreditCardSelector"
 
 
 
-function PaymentAskConfirmation({ toggleAskConfirmPanel, courseId, resa_id, sellerId}) {
+function PaymentAskConfirmation({ toggleAskConfirmPanel, courseId, resa_id, sellerId, exit}) {
   const [useCheckbox, setCheckbox] = useState(false)
   const [useQuantity, setQuantity] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
+  
 
   const router = useRouter()
 
@@ -44,8 +45,8 @@ function PaymentAskConfirmation({ toggleAskConfirmPanel, courseId, resa_id, sell
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" onClick={toggleAskConfirmPanel}></div>
         <section className="absolute inset-y-0 right-0 pl-10 max-w-full flex" aria-labelledby="slide-over-heading">
-          <div className="relative w-screen max-w-md">
-            <div className="h-full flex flex-col py-6 bg-white shadow-sm overflow-y-scroll transition duration-300 ease-in-out">
+          <div className={`${exit == false? "animate-slideleft" : "animate-slideright"} relative w-screen max-w-md`}>
+            <div className={`flex flex-col py-6 bg-white shadow-sm overflow-y-scroll h-full `}>
               <div className="flex flex-col px-4 sm:px-6">
                 <h2 id="slide-over-heading" className="text-lg font-medium text-gray-900 font-montserrat">
                   Acheter ma place

@@ -2,12 +2,14 @@ import { useMutation } from "@apollo/client"
 import { useContext, useState } from "react"
 import { ADD_INGREDIENTS } from "../Helpers/GraphQlAddQueries"
 import { DataInSeellerContext } from "../utils/DataInSellerContext"
+import { useNotification } from "./notification/NotificationContext"
 
-export default function OnlineAddIngredientsItem({courseId}){
+export default function OnlineAddIngredientsComponents({courseId}){
     const [UpdateIngredients, {data, loading, error}] = useMutation(ADD_INGREDIENTS)
     const [quantity, setQuantity] = useState("")
     const [ingredient, setIngredient] = useState("")
     const {pageSeller, setPageSeller} = useContext(DataInSeellerContext)
+    const dispatch = useNotification()
 
 
     const handleAddIngredients = (event) => {
@@ -26,6 +28,13 @@ export default function OnlineAddIngredientsItem({courseId}){
             setPageSeller(result.data.addIngredientToAcourse)
             setQuantity("")
             setIngredient("")
+            dispatch({
+                payload: {
+                    type: "SUCCESS",
+                    title: "Ingrédients",
+                    message:"L'ingredient a été ajouté."
+                }
+            })
         })
 
     }

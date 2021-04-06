@@ -52,17 +52,17 @@ export default function HeroHome({ user }) {
                                     </div>
                                 </div>
 
-                                <div className="hidden md:block md:ml-10 md:pr-4 md:space-x-8">
+                                {/* <div className="hidden md:block md:ml-10 md:pr-4 md:space-x-8">
                                     <a href="#" className="font-bold text-gray-500 hover:text-gray-900 font-montserrat text-sm">fonctionnement</a>
 
                                     <a href="#" className="font-bold text-gray-500 hover:text-gray-900 font-montserrat text-sm">Sécurité</a>
 
-                                    <a href="#" className="font-bold text-gray-500 hover:text-gray-900 font-montserrat text-sm">Cours de cuisine</a>
+                                    <a href="#" className="font-bold text-gray-500 hover:text-gray-900 font-montserrat text-sm">Cours interactif</a>
 
                                     {
                                         user.id ? <a href="/dashboard" className="font-bold text-gray-500 hover:text-gray-900 font-montserrat text-sm">dashboard</a> : <ConnnectButton />
                                     }
-                                </div>
+                                </div> */}
 
                             </nav>
                         </div>

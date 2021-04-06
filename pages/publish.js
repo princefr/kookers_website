@@ -1,5 +1,5 @@
 import styles from '../styles/Home.module.css'
-import React, { useState, useCallback, useMemo, useContext, useEffect } from "react";
+import React, { useState, useCallback, useMemo, useEffect, useContext } from "react";
 import Head from 'next/head'
 import Nav from "../components/nav"
 import DatePicker, { registerLocale} from "react-datepicker";
@@ -18,16 +18,17 @@ import PlateTypeComponent from '../components/PlateTypeComponent';
 import firebase from 'firebase/app'
 import "firebase/storage"
 
-import { UserContext } from '../utils/UserContext';
+
 import { AuthAction, withAuthUser, withAuthUserTokenSSR } from 'next-firebase-auth';
 import * as firebaseAdmin from "firebase-admin";
-import { createNewCourse } from '../Helpers/GraphQLFunctions';
-import { ToastContainer, toast} from 'react-toastify';
+
 import uuid from 'react-uuid'
 import { useRouter } from 'next/router';
 import FirebaseClient from "../Helpers/firebase"
 import { useMutation } from '@apollo/client';
 import { ADD_POST } from '../Helpers/GraphQlAddQueries';
+import { useNotification } from '../components/notification/NotificationContext';
+import { UserContext } from '../utils/UserContext';
 
 
 
@@ -79,6 +80,14 @@ function Publish({userCookie}) {
     const [displayImage, setDisplayImage] = useState("")
     const [brutFile, setBrutFile] = useState("")
 
+    const {user, setUser} = useContext(UserContext)  
+
+
+    const dispatch = useNotification()
+
+    useEffect(() => {
+        router.prefetch("/dashboard")
+    }, [])
 
     useEffect(() => {
         setFee(pricePerPerson - percentage(5, pricePerPerson)) 
@@ -87,7 +96,6 @@ function Publish({userCookie}) {
 
     const handlePrice = (e) => {
         setpricePerPerson(e)
-
         
     }
 
@@ -97,7 +105,7 @@ function Publish({userCookie}) {
      }
 
 
-     const [AddPost, {data, loading, error}] = useMutation(ADD_POST)
+     const [AddPost, {loading}] = useMutation(ADD_POST)
 
 
 
@@ -131,7 +139,7 @@ function Publish({userCookie}) {
                         plate_type: plateType,
                         cuisine_provenance: _cuisine_pref,
                         food_preferences: _food_preferences,
-                        userId: "603f61214859eac52816f6f3",
+                        userId: user._id,
                         difficulty: difficulty
                     },
                     resa : {
@@ -139,11 +147,24 @@ function Publish({userCookie}) {
                     }
                    }
                }).then(() => {
+                dispatch({
+                    payload: {
+                        type: "SUCCESS",
+                        title: "Cours",
+                        message:"Votre cours a été publié avec succès"
+                    }
+                })
                     router.push("/dashboard")
                })
                
               }).catch(() => {
-                toast.error("Une erreur s'est produite veuillez reessayer");
+                dispatch({
+                    payload: {
+                        type: "ERROR",
+                        title: "Cours",
+                        message:"Une erreur est survenu, veuillez reessayer"
+                    }
+                })
               })
               
             }
@@ -326,7 +347,7 @@ function Publish({userCookie}) {
                     </div>
                     
                 </div>
-                <ToastContainer></ToastContainer>
+
 
             </main>
 

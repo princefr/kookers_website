@@ -3,32 +3,33 @@ import styles from '../styles/Home.module.css'
 import Head from 'next/head'
 import Nav from "../components/nav"
 import SellItem from "../components/sellsitem"
-import Link from 'next/link'
+// import Link from 'next/link'
 import { AuthAction, withAuthUser, withAuthUserTokenSSR } from 'next-firebase-auth'
-import { getCoursesMadeByUser } from '../Helpers/GraphQLFunctions'
-import { useContext, useEffect } from 'react'
+import { useContext} from 'react'
 import { DataInSeellerContext } from '../utils/DataInSellerContext'
 import { useRouter } from 'next/router'
-import { ConfirmActionPanel } from '../components/ConfirmActionPanel'
+import { useQuery } from '@apollo/client'
+import { GET_USER_SELLS } from '../graphql/sells/GetFunctions'
 
 
 
 
-function Sells({courses}){
+
+function Sells({firebaseUid}){
     const {pageSeller, setPageSeller} = useContext(DataInSeellerContext)
     const router = useRouter()
+
+    const { loading, error, data} = useQuery(GET_USER_SELLS, {
+        variables: {
+            firebaseUid: firebaseUid
+        }
+    })
 
 
     const navigateToChild = (course) => {
         setPageSeller(course)
         router.push("sells/" + course._id)
     }
-
-    useEffect(() => {
-        courses.forEach((course) => {
-            router.prefetch("sells/" + course._id)
-        })
-    }, [])
 
 
 
@@ -55,14 +56,18 @@ function Sells({courses}){
                             </div>
                         </div>
 
-                        {
-                            courses.length > 0 ? courses.map((course) => {
+                        {(() => {
+                            if(loading) return <p>...loading</p>
+                            if(error) return <p>{error.message}</p>
+                            data.getCoursesMadeByUser.map((course) => {
                                 return <a onClick={(() => {navigateToChild(course)})}>
-                                        <SellItem course={course} key={course._id}/>
+                                        <SellItem course={course} key={course._id} key={course._id}/>
                                     </a>
                             
-                            }) : null
-                        }
+                            })
+                        })()}
+
+
                         
                     </div>
                 </div>
@@ -77,14 +82,10 @@ function Sells({courses}){
 export const getServerSideProps = withAuthUserTokenSSR({
     whenAuthed: AuthAction.RENDER,
     whenUnauthed: AuthAction.REDIRECT_TO_LOGIN
-  })(async () => {
-        const {data} = await getCoursesMadeByUser("603f61214859eac52816f6f3").catch(err => {
-            console.log("une erreur s'est produite", err)
-        })
-
+  })(async ({AuthUser}) => {
       return {
         props: {
-            courses: data.getCoursesMadeByUser
+            firebaseUid: AuthUser.id
         }
       }
   })

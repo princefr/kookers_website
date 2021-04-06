@@ -1,50 +1,76 @@
+import { useQuery } from "@apollo/client";
+import { GET_RESADATE } from "../Helpers/GraphQlGetQueries";
+import SellerResaDateItem from "./SellerResaDateItem";
 
 
 
-export default function SellerResaDateComponent({resa}){
+export default function SellerResaDateComponent({ courseId }) {
+    const { loading, error, data } = useQuery(GET_RESADATE, {
+        variables: {
+            courseId: courseId
+        }
+    })
 
-
+    if (loading) return <div>loading</div>
+    if (error) return <div>error</div>
 
     return (
-        <tr>
-            <td className="px-4 py-4 whitespace-nowrap">
-                <div className="flex items-center">
-                    <div className="flex-shrink-0 h-10 w-10">
-                        <img className="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60" alt="" />
-                    </div>
-                    <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900">
-                            Jane Cooper
-                        </div>
-                        <div className="text-sm text-gray-500">
-                            jane.cooper@example.com
-                        </div>
+
+        <div className="container flex flex-col px-1 py-2 mx-auto">
+                                {/* <!-- This example requires Tailwind CSS v2.0+ --> */}
+                                <div className="text-lg font-montserrat pb-1">
+                                    Cours
+                                </div>
+                                <div className="flex flex-col">
+            <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                    <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                        <table className="min-w-full divide-y divide-gray-200">
+                            <thead className="bg-gray-50">
+                                <tr>
+                                    <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Date
+                                                            </th>
+                                                            <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Heure
+                                                            </th>
+                                                            <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Durée
+                                                            </th>
+                                    <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Participants
+                                                            </th>
+                                    <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Status
+                                                            </th>
+                                    <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Gains
+                                                            </th>
+                                    <th scope="col" className="relative px-4 py-3">
+                                        <span className="sr-only">Commencer</span>
+                                    </th>
+                                    <th scope="col" className="relative px-4 py-3">
+                                        <span className="sr-only">Modifier</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody className="bg-white divide-y divide-gray-200">
+                                {
+                                    data ? data.loadResaForAcourse.map((resa) => {
+                                        return <SellerResaDateItem resa={resa} key={resa._id}></SellerResaDateItem>
+                                    }) : null
+
+                                }
+
+                                {/* <!-- More items... --> */}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </td>
-            <td className="px-4 py-4 whitespace-nowrap flex flex-row -space-x-3">
-                <img className="h-8 w-8 rounded-full ring-2 ring-red-500 transform hover:scale-125" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60" alt="" />
-                <img className="h-8 w-8 rounded-full ring-2 ring-red-500 transform hover:scale-125" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60" alt="" />
-                <img className="h-8 w-8 rounded-full ring-2 ring-red-500 transform hover:scale-125" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60" alt="" />
-                <img className="h-8 w-8 rounded-full ring-2 ring-red-500 transform hover:scale-125" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60" alt="" />
+            </div>
+        </div>
 
+                            </div>
 
-            </td>
-            <td className="px-4 py-4 whitespace-nowrap">
-                <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                    Active
-                </span>
-            </td>
-            <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
-                Admin
-            </td>
-            <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <a href="#" className="text-indigo-600 hover:text-indigo-900">Edit</a>
-            </td>
-            <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <a href="#" className="text-indigo-600 hover:text-indigo-900">Commencer</a>
-            </td>
-        </tr>
     )
-
 }

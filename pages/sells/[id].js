@@ -1,33 +1,21 @@
 import styles from '../../styles/Home.module.css'
 import Head from 'next/head'
 import Nav from "../../components/nav"
-import { useContext, useState } from 'react'
+import { useContext} from 'react'
 import fr from 'date-fns/locale/fr';
 import "react-datepicker/dist/react-datepicker.css";
-import { useEffect } from 'react';
-import {loadResaForACourse } from '../../Helpers/GraphQLFunctions';
 import { DataInSeellerContext } from '../../utils/DataInSellerContext';
 import OnlineAddIngredientsComponents from '../../components/OnlineIngredientsComponents';
 import OnlineIngredient from '../../components/OnlineIngredientsItem'
 import OnlineAddDateCourse from '../../components/OnlineAddDateCourse';
 import SellerResaDateComponent from '../../components/SellerResaDateComponent';
-import { useQuery } from '@apollo/client';
-import { GET_RESADATE } from '../../Helpers/GraphQlGetQueries';
+
 // import Chip from '../../components/chips'
 
 
 function Sell() {
     const {pageSeller, setPageSeller} = useContext(DataInSeellerContext)
-    const [resas , setResas] = useState()
-
-
-    const {loading, error, data} = useQuery(GET_RESADATE, {
-        variables : {
-            courseId: pageSeller._id
-        }
-    })  
-
-  
+    
 
     return (
         <div style={styles}>
@@ -100,8 +88,8 @@ function Sell() {
                                                 <div className="flex flex-col space-y-2">
                                                     <OnlineAddIngredientsComponents courseId={pageSeller._id}></OnlineAddIngredientsComponents>
                                                     {
-                                                        pageSeller.ingredients.map((ingredient) => {
-                                                            return <OnlineIngredient courseId={pageSeller._id} ingredient={ingredient}></OnlineIngredient>
+                                                        pageSeller.ingredients.map((ingredient, key) => {
+                                                            return <OnlineIngredient courseId={pageSeller._id} ingredient={ingredient} key={key}></OnlineIngredient>
                                                         })
                                                     }
                                                 </div>
@@ -123,55 +111,7 @@ function Sell() {
                                 <OnlineAddDateCourse courseId={pageSeller._id}></OnlineAddDateCourse>
                             </div>
 
-                            <div className="container px-1 py-2 mx-auto">
-                                {/* <!-- This example requires Tailwind CSS v2.0+ --> */}
-                                <div className="text-lg font-montserrat pb-1">
-                                    Cours
-                                </div>
-                                <div className="flex flex-col">
-                                    <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                                        <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                                            <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                                                <table className="min-w-full divide-y divide-gray-200">
-                                                    <thead className="bg-gray-50">
-                                                        <tr>
-                                                            <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                                Date
-                                                            </th>
-                                                            <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                                Participants
-                                                            </th>
-                                                            <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                                Status
-                                                            </th>
-                                                            <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                                Gains
-                                                            </th>
-                                                            <th scope="col" className="relative px-4 py-3">
-                                                                <span className="sr-only">Commencer</span>
-                                                            </th>
-                                                            <th scope="col" className="relative px-4 py-3">
-                                                                <span className="sr-only">Modifier</span>
-                                                            </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody className="bg-white divide-y divide-gray-200">
-                                                        {
-                                                            data ? data.loadResaForAcourse.map((resa) => {
-                                                                return <SellerResaDateComponent resa={resa}></SellerResaDateComponent>
-                                                            }): null
-                                                            
-                                                        }
-
-                                                        {/* <!-- More items... --> */}
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
+                            <SellerResaDateComponent courseId={pageSeller._id}></SellerResaDateComponent>
                         </section>
                     </div>
                 </div>

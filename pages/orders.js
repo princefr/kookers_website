@@ -3,23 +3,27 @@ import Head from 'next/head'
 import Nav from "../components/nav"
 import Chip from '../components/chips'
 import OrderItem from '../components/orderitem'
-import Link from 'next/link'
-import { useContext, useEffect, useState } from 'react'
-import { getResaBuyerOrders } from '../Helpers/GraphQLFunctions'
+// import Link from 'next/link'
+import { useContext} from 'react'
+
 import { DataInBuyerContext } from '../utils/DataInBuyerContext'
 import { useRouter } from 'next/router'
+import { AuthAction, withAuthUser, withAuthUserTokenSSR } from 'next-firebase-auth'
+import { useQuery } from '@apollo/client'
+import { GET_ORDERS } from '../graphql/orders/GetFunctions'
 
 
-function Orders() {
-
-    const [orders, setOrders] = useState()
+function Orders({firebaseUid}) {
     const {pageBuyer, setPageBuyer} = useContext(DataInBuyerContext)
     const router = useRouter()
 
-    useEffect(async () => {
-        const {data} = await getResaBuyerOrders("6048d740e0619076d2245d94")
-        setOrders(data.getResaBuyerOrders)
-    }, [])
+    const { loading, error, data} = useQuery(GET_ORDERS, {
+        variables: {
+            firebaseUid: firebaseUid
+        }
+    })
+
+    
 
 
     const navigateToChild = (order) => {
@@ -56,15 +60,17 @@ function Orders() {
                                 <div className="text-sm font-montserrat">Trier par: </div>
                             </div>
                         </div>
-                        {/*  */}
-
-                        {
-                            orders ? orders.map((order) => {
+                        {(() => {
+                            if(loading) return <p>...loading</p>
+                            if(error) return <p>{error.message}</p>
+                            data.getResaBuyerOrders.map((order) => {
                                 return <a key={order._id} onClick={(() => navigateToChild(order))}>
                                 <OrderItem key={order._id} order={order}/>
                             </a>
-                            }) : null
-                        }
+                            })
+                        })()}
+
+                        
 
                     </div>
                 </div>
@@ -75,5 +81,16 @@ function Orders() {
 }
 
 
+export const getServerSideProps = withAuthUserTokenSSR({
+    whenAuthed: AuthAction.RENDER,
+    whenUnauthed: AuthAction.REDIRECT_TO_LOGIN
+  })(async ({AuthUser}) => {
+      return {
+        props: {
+            firebaseUid: AuthUser.id
+        }
+      }
+  })
 
-export default Orders
+
+export default withAuthUser({whenAuthed: AuthAction.RENDER, whenUnauthed: AuthAction.REDIRECT_TO_LOGIN, whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN})(Orders)

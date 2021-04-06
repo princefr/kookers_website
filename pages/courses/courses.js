@@ -1,15 +1,13 @@
 import styles from '../../styles/Home.module.css'
 import CourseItem from '../../components/courseItem'
-import Link from 'next/link'
 import { AuthAction, withAuthUser } from 'next-firebase-auth'
 import { useContext } from 'react'
 import { DataInPageContext } from '../../utils/DataInPageContext'
 import { useRouter } from 'next/router'
-import { useQuery } from '@apollo/client'
-import { GET_HOME_DATA } from '../../Helpers/GraphQlGetQueries'
 
 
-function Courses() {
+
+function Courses({firebaseUid, loading, data, error}) {
     const {pageData, setPageData} = useContext(DataInPageContext)
     const router = useRouter();
 
@@ -23,11 +21,7 @@ function Courses() {
     }
 
 
-    const { loading, error, data } = useQuery(GET_HOME_DATA, {
-        variables : {
-          userId: "6048d740e0619076d2245d94",
-        },
-      })
+    
 
     if (loading) return 'Loading...';
     if (error) return `Error! ${error.message}`;

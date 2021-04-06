@@ -1,10 +1,10 @@
-import React, { useState, useContext } from "react";
+import React, { useContext, useState} from "react";
 import onClickOutside from "react-onclickoutside";
 import Toogle from '../components/toogle'
 import LanguageButton from '../components/langageButton'
 import CookiesButton from '../components/cookieButton'
-import {UserContext} from '../utils/UserContext'
 import { useRouter } from 'next/router'
+import { UserContext } from "../utils/UserContext";
 
 
 
@@ -13,10 +13,8 @@ function UserPicture({firebaseUser}) {
     const [showDropDown, setshowDropDown] = useState(false);
     const toggleDropdown = () => setshowDropDown(!showDropDown);
     UserPicture.handleClickOutside = () => setshowDropDown(false)
+    const {user, setUser} = useContext(UserContext)
 
-    const {user, } = useContext(UserContext)
-
-    
     const goToSettings = () => {
         router.push("/settings")
     }
@@ -47,7 +45,7 @@ function UserPicture({firebaseUser}) {
         
         <div className="relative inline-block text-left font-montserrat">
             <button onClick={toggleDropdown} className="group rounded-full overflow-hidden bg-transparent hover:bg-blue-600 hover:bg-opacity-25 h-10 w-10 p-1 transition-all ease-out duration-200 focus:outline-none focus:shadow-outline focus:bg-teal-300 focus:bg-opacity-25">
-                <img src={user? user.photoUrl : null}   className="w-8 h-8 object-cover group-hover:shadow group-focus:shadow  rounded-full"
+                <img src={user ? user.photoUrl : null}   className="w-8 h-8 object-cover group-hover:shadow group-focus:shadow  rounded-full"
                     
                     alt="Avatar of Tailwind CSS Design"
                 />
@@ -56,28 +54,36 @@ function UserPicture({firebaseUser}) {
  
             {
                 showDropDown ?
-                    <div className="delay-200 z-40 duration-250 transition-opacity ease-in-out origin-top-right absolute right-0 mt-2 w-96 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                    <div className="origin-top-right absolute right-0 mt-2 w-96 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                         <div className="py-1" role="none">
                             <div className="flex flex-col p-4">
                                 <div className="flex flex-row">
                                     <img
                                         className="w-16 h-16 object-cover group-hover:shadow group-focus:shadow  rounded-full"
-                                        src={user? user.photoUrl: null}
+                                        src={user ? user.photoUrl: null}
                                         alt="Avatar of Tailwind CSS Design"
                                     />
                                     <div className="flex flex-col ml-5 items-start py-2">
                                         <div className="font-medium">ONDONDA PRINCE</div>
-                                        <div className="flex flex-row items-center space-x-2 ml-0">
-                                            <div className="h-3 w-3 bg-green-500 rounded-full" />
-                                            <div>En ligne</div>
-                                        </div>
+                                        {(() => {
+                                            if(user){
+                                                return <div className="flex flex-row items-center space-x-2 ml-0">
+                                                    <div className={`h-3 w-3 rounded-full ${user.is_online == true ? "bg-green-500": "bg-gray-500"}`} />
+                                                    <div>{user.is_online == true? "En ligne" : "Déconnecté"}</div>
+                                                </div>
+                                            }
+                                        })()}
                                     </div>
                                 </div>
 
                                 {/* https://tailwindcomponents.com/component/toggle-switch toogle swtich inspiration */}
                                 <div className="flex flex-row justify-between mt-5">
-                                    <div>En ligne</div>
-                                    <Toogle id="tooglesetOnline"/>
+                                    {(() => {
+                                        if(user){
+                                            return <div>{user.is_online ? "En ligne" : "Déconnecté"}</div>
+                                        } 
+                                    })()}
+                                    <Toogle id="tooglesetOnline"  uid= {firebaseUser.id}/>
                                 </div>
                             </div>
                         </div>
@@ -126,13 +132,13 @@ function UserPicture({firebaseUser}) {
                             <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">
                                 <LanguageButton/>
                             </a>
-                            <a href="#" className="flex flex-row justify-between px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">
+                            {/* <a href="#" className="flex flex-row justify-between px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">
                                 <div className="flex flex-row items-center space-x-2 ml-0">
                                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
                                     <div>Thème sombre</div>
                                 </div>
                                 <Toogle id="toogleDarkTheme"/>
-                            </a>
+                            </a> */}
                             <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">
                                 <CookiesButton></CookiesButton>
                             </a>

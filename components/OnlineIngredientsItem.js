@@ -2,10 +2,12 @@ import { useMutation } from "@apollo/client";
 import { useContext } from "react";
 import { DELETE_INGREDIENT } from "../Helpers/GraphQlAddQueries";
 import { DataInSeellerContext } from "../utils/DataInSellerContext";
+import { useNotification } from "./notification/NotificationContext";
 
 export default function OnlineIngredient({ingredient, courseId}){
     const [DeleteInngredient, {data, loading, error}] =useMutation(DELETE_INGREDIENT)
     const {pageSeller, setPageSeller} = useContext(DataInSeellerContext)
+    const dispatch = useNotification()
 
 
     const deleteIngredient = (event) => {
@@ -20,6 +22,13 @@ export default function OnlineIngredient({ingredient, courseId}){
             }
         }).then((result) => {
             setPageSeller(result.data.deleteIngredients)
+            dispatch({
+                payload: {
+                    type: "SUCCESS",
+                    title:"Ingrédients",
+                    message:"L'ingredient a été supprimé."
+                }
+            })
         })
     }
 
@@ -35,7 +44,7 @@ export default function OnlineIngredient({ingredient, courseId}){
                 {ingredient.name}
             </div>
         </div>
-        <button onClick={deleteIngredient} className="pr-4">
+        <button onClick={deleteIngredient} className="pr-4 focus:outline-none">
             {
                 loading ? <svg className="animate-spin h-5 w-5 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>

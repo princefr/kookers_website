@@ -3,14 +3,14 @@ import onClickOutside from "react-onclickoutside";
 import  data from '../utils/countries.json' 
 
 
-function CountryPicker({onChange}) {
+function CountryPicker({onChange, countryDisplayed, setCountryDisplayed}) {
     const [showDropDown, setshowDropDown] = useState(false);
     const toggleDropdown = () => setshowDropDown(!showDropDown);
     CountryPicker.handleClickOutside = () => setshowDropDown(false)
 
     const [countryList, setCountryList] = useState();
     const [inputext, setInputext] = useState('');
-    const [countryDisplayed, setCountryDisplayed] = useState({name: "France", dial_code: "+33", code: "FR"});
+    
     
     useEffect(() => {
         setCountryList(data);

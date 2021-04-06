@@ -25,11 +25,11 @@ function CourseItem({course}) {
                     <div>
                         <div className="inline-flex items-center rounded-full bg-white  border-gray-200 p-px">
                             <img
-                                className="w-8 h-8 object-cover rounded-full ring-2 ring-offset-red-600"
-                                src="//images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80"
+                                className="w-8 h-8 object-cover rounded-full ring-1 ring-black"
+                                src={course.poster.photoUrl}
                                 alt="Avatar of Tailwind CSS Design"
                             />
-                            <span className="px-1 text-sm">John Doe</span>
+                            <span className="px-1 text-sm">{course.poster.first_name}  {course.poster.last_name}</span>
                         </div>
                     </div>
 

@@ -2,27 +2,31 @@ import React, { useState } from "react";
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import CountryPicker from '../components/CountryPicker';
+import { useNotification } from "./notification/NotificationContext";
 
 
 
 
 function ConnnectButton() {
-
-
-
     const [showModal, setshowModal] = useState(false);
     const toggleModal = () => setshowModal(!showModal);
+
+    const [usePhone, setPhone] = useState("")
+    const [useCode, setCode] = useState("")
 
 
 
     const [timer, setTimer] = useState(60);
     const [codeIsLoading, setCodeIsLoading] = useState(false);
-    const [codeIsDisabled, setCodeIsDisabled] = useState(true);
+
 
     const [isConnectLoading, setConnectLoading] = useState(false);
-    const [isConnectDisabled, setConnectDisabled] = useState(true);
+
 
     const [verificationCode, setVerificationCode] = useState(true);
+
+    const [countryDisplayed, setCountryDisplayed] = useState({name: "France", dial_code: "+33", code: "FR"});
+    const dispatch = useNotification()
 
 
     const countdown = () => {
@@ -32,7 +36,6 @@ function ConnnectButton() {
                     return _timer - 1
                 } else {
                     setTimer(60)
-                    setCodeIsDisabled(false)
                     setCodeIsLoading(false)
                     clearInterval(interval)
                 }
@@ -45,19 +48,11 @@ function ConnnectButton() {
 
 
     const handlePhoneChange = (e) => {
-        if (!e.length) {
-            setCodeIsDisabled(true)
-        } else {
-            setCodeIsDisabled(false)
-        }
+        setPhone(e)
     }
 
     const handleCodeChange = (e) => {
-        if (!e.length) {
-            setConnectDisabled(true)
-        } else {
-            setConnectDisabled(false)
-        }
+        setCode(e)
     }
 
 
@@ -67,7 +62,6 @@ function ConnnectButton() {
     const handleSignUpWithPhone = event => {
         event.preventDefault();
         setCodeIsLoading(true)
-        setCodeIsDisabled(true)
         countdown()
         const appVerifier = new firebase.auth.RecaptchaVerifier(
             "sign-in-button",
@@ -76,11 +70,25 @@ function ConnnectButton() {
             }
         );
         appVerifier.render().then((wigetID) => {
-            firebase.auth().signInWithPhoneNumber("+33782798614", appVerifier).then((confirmationResult) => {
+            firebase.auth().signInWithPhoneNumber(countryDisplayed.dial_code + usePhone, appVerifier).then((confirmationResult) => {
                 window.grecaptcha.reset(wigetID)
                 setVerificationCode(confirmationResult);
+                dispatch({
+                    payload: {
+                        type: "SUCCESS",
+                        title: "Votre SMS",
+                        message:"Un sms vous a été ennvoyé au numéro spécifié"
+                    }
+                })
             }).catch((err) => {
                 window.grecaptcha.reset(wigetID)
+                dispatch({
+                    payload: {
+                        type: "ERROR",
+                        title: "Votre SMS",
+                        message: err.message
+                    }
+                })
                 console.log("une erreur est survenu", err)
             })
         })
@@ -91,10 +99,15 @@ function ConnnectButton() {
     const onVerifyCodeSubmit = event => {
         event.preventDefault();
         setConnectLoading(true)
-        setConnectDisabled(true)
-        verificationCode.confirm("123456").then(() => {
+        verificationCode.confirm(useCode).then(() => {
             setConnectLoading(false)
-            setConnectDisabled(false)
+            dispatch({
+                payload: {
+                    type: "SUCCESS",
+                    title: "Connexionn",
+                    message:"Vous êtes connecté!"
+                }
+            })
         }).catch((err) => {
             console.error("Error while checking the verification code", err);
         })
@@ -150,11 +163,11 @@ function ConnnectButton() {
                                         <div className="text-2xl font-montserrat font-semibold">Connexion</div>
                                         <div className="text-base font-montserrat font-semibold mt-24">Téléphone</div>
                                         <div className="h-10 w-full">
-                                            <CountryPicker onChange={handlePhoneChange}></CountryPicker>
+                                            <CountryPicker onChange={handlePhoneChange} countryDisplayed={countryDisplayed} setCountryDisplayed={setCountryDisplayed}></CountryPicker>
                                         </div>
                                         <div className="flex flex-row  w-full space-x-3">
                                             <input onChange={(e) => handleCodeChange(e.target.value)} type="text" placeholder="Saisis le code à 4 chiffres" className="w-3/5 h-10 px-5 pr-10 font-montserrat text-sm focus:outline-none focus:ring-2 focus:ring-offset-black focus:ring-black border-2 border-gray-300"></input>
-                                            <button onClick={handleSignUpWithPhone} className="h-10 w-2/5 bg-black disabled:opacity-40 text-white text-sm font-semibold font-montserrat" disabled={codeIsDisabled}>
+                                            <button onClick={handleSignUpWithPhone} className="h-10 w-2/5 bg-black disabled:opacity-40 text-white text-sm font-semibold font-montserrat" disabled={!usePhone.length}>
                                                 {codeIsLoading ? timer + " seconde(s)" : "Envoyer le code"}
                                             </button>
                                         </div>
@@ -169,7 +182,7 @@ function ConnnectButton() {
 
 
                                         <div className="py-2 w-full h-10">
-                                            <button onClick={onVerifyCodeSubmit} className="flex flex-row items-center justify-center h-10 w-full bg-black text-white text-sm font-semibold font-montserrat disabled:opacity-40" disabled={isConnectDisabled}>
+                                            <button onClick={onVerifyCodeSubmit} className="flex flex-row items-center justify-center h-10 w-full bg-black text-white text-sm font-semibold font-montserrat disabled:opacity-40" disabled={!useCode.length}>
                                                 {
                                                     isConnectLoading ? <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
@@ -180,12 +193,12 @@ function ConnnectButton() {
                                             </button>
                                         </div>
 
-                                        <div className="py-2 border-b border-gray-200 w-full"></div>
+                                       
                                     </div>
 
 
-                                    <div className="border-t border-gray-400 flex flex-col space-y-3 px-14">
-                                        <div className="items-start justify-start flex text-2xl font-montserrat font-semibold">S'inscrire</div>
+                                    <div className="border-t border-gray-100 flex flex-col space-y-3 px-14">
+                                        <div className="items-start justify-start flex text-2xl font-montserrat font-semibold mt-5">S'inscrire</div>
                                         <div className="py-2 w-full text-justify">
                                             <p className="text-xs">
                                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud

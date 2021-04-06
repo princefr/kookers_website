@@ -1,60 +1,57 @@
 
 
-import React, { useContext, useState } from "react";
+import React, {useState } from "react";
 import onClickOutside from "react-onclickoutside";
 import Iban from 'iban';
-import { createBankAccount } from "../Helpers/GraphQLFunctions";
-import { UserContext } from "../utils/UserContext";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useMutation } from "@apollo/client";
+import { ADD_IBAN } from "../graphql/wallet/AddFunction";
+import { useNotification } from "./notification/NotificationContext";
 
 
 
 
-function AddIbanButton() {
-    const {user, } = useContext(UserContext)
+function AddIbanButton({firebaseUid}) {
+    
     const [showModal, setshowModal] = useState(false);
     const toggleModal = () => setshowModal(!showModal);
     AddIbanButton.handleClickOutside = () => setshowModal(false)
 
-    const [useIban, setIban] = useState("")
-    const [isDisabled, setIsDisable] = useState(true)
-    const [isLoading, setIsLoading] = useState(false)
+    const [AddIbanToUSer, {data, loading, error}] = useMutation(ADD_IBAN)
 
+    const [useIban, setIban] = useState("")
+    const dispatch = useNotification()
 
     const handleIbanChange = (e) => {
-        if(!e.length){
-          setIsDisable(true)
-          return;  
-        }
         setIban(e)
-        setIsDisable(false)
     }
-
-    const notify = () => toast.error("Wow so easy!", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-    });
 
     const uploadIban = async (event) => {
         event.preventDefault();
-        setIsDisable(true)
-        setIsLoading(true)
         if(Iban.isValid(useIban)){
-            return createBankAccount(user.id, user.country,  user.currency, useIban).then((success) => {
-                print("success", success)
-                setIsDisable(false)
-                setIsLoading(false)
-            }).catch((err) => {
-                setIsDisable(false)
-                setIsLoading(false)
-                console.log(err)
-            })
+            
+                AddIbanToUSer({
+                    variables: {
+                        firebaseUid: firebaseUid,
+                        account_number: useIban
+                    }
+                }).then(() => {
+                    toggleModal()
+                    dispatch({
+                        payload: {
+                            type: "SUCCESS",
+                            title: "Vos Ibans",
+                            message:"Votre nouvel iban a été ajouté avec succès"
+                        }
+                    })
+                }).catch(() => {
+                    dispatch({
+                        payload: {
+                            type: "ERROR",
+                            title: "Vos Ibans",
+                            message:"Une erreur s'est produite lors de l'ajout de votre nouvel Iban. Veuillez reessayer." 
+                        }
+                    })
+                })
         }else{
             console.log("renseignner un iban valid")
         }
@@ -76,7 +73,7 @@ function AddIbanButton() {
 
             </button>
             {
-                showModal ? <div className="fixed z-10 inset-0 overflow-y-auto">
+                showModal ? <div className="fixed z-50 inset-0 overflow-y-auto">
                     
                     <div className="flex items-end justify-center min-h-screen  px-4 pb-20 text-center sm:block sm:p-0">
                         <div className="fixed inset-0 transition-opacity" onClick={toggleModal} aria-hidden="true">
@@ -109,12 +106,15 @@ function AddIbanButton() {
                                     </div>
 
                                     <div className="flex flex-row pt-10 justify-end w-full">
-                                        <button onClick={notify} disabled={isDisabled}
+                                        <button onClick={uploadIban}  disabled={!useIban.length}
                                             type="button"
                                             className="transition ease-out disabled:opacity-40 duration-700 w-full mr-5 flex  justify-center space-x-4 px-5 py-2 overflow-hidden focus:outline-none focus:shadow-outline bg-teal-400 hover:bg-gray-800 bg-black text-white text-xs items-center font-medium"
                                         >
                                             {
-                                                isLoading ? <p>is loading</p>: null
+                                                loading ? <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                            </svg>: null
                                             }
                                             <span className="font-montserrat text-sm">Ajouter</span>
 
@@ -130,7 +130,6 @@ function AddIbanButton() {
                 </div> : null
             }
 
-                <ToastContainer></ToastContainer>
         </div>
 
     )

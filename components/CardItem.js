@@ -1,11 +1,12 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext, useState } from "react"
 import { setDefaultCard } from "../Helpers/GraphQLFunctions";
 import { UserContext } from "../utils/UserContext"
+import RemoveCardButton from "./buttons/RemoveCardButton";
 import CardLogo from "./CardLogo";
 
 
 
-function CardItem({card}){
+function CardItem({card, refetch}){
 
     // id
     // brand
@@ -21,13 +22,6 @@ function CardItem({card}){
     const {user, } = useContext(UserContext)
     const [isDefault, setIsDefault] = useState(false)
 
-    useEffect(() => {
-        user.all_cards.forEach((eachCard) => {
-            if(eachCard.id == user.default_source){
-                setIsDefault(true)
-            }
-        })
-    }, []);
 
     const setDefault = async (event) => {
         event.preventDefault();
@@ -41,15 +35,7 @@ function CardItem({card}){
             console.log("there is an error", err)
         })
     }
-
-    const deleteCard = async (event) => {
-        event.preventDefault();
-        if(user.all_cards.length == 1){
-            console.log("you cannot delete it")
-        }else{
-            console.log("you can delete this card")
-        }
-    }
+    
     return (
       <div className="flex flex-row h-12 w-full mt-1  justify-between">
         <div className="flex flex-row w-3/5 h-full  items-center">
@@ -69,9 +55,7 @@ function CardItem({card}){
                     : null
                 }
             </button>
-            <button onClick={deleteCard}>
-                <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-            </button>
+            <RemoveCardButton card={card} refetch={refetch}></RemoveCardButton>
         </div>
     </div>
     )

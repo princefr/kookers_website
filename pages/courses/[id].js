@@ -2,24 +2,22 @@
 // import { gql } from '@apollo/client';
 import styles from '../../styles/Home.module.css'
 import Head from 'next/head'
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import PaymentAskConfirmation from '../../components/payment_confirmation_panel'
 import Nav from '../../components/nav'
-import { UserContext } from '../../utils/UserContext';
-import { useRouter } from 'next/router';
 import { AuthAction, withAuthUser } from 'next-firebase-auth';
 import { DataInPageContext } from '../../utils/DataInPageContext';
-import { loadResaForACourse } from '../../Helpers/GraphQLFunctions';
 import ResaItem from '../../components/resaItem';
+import { useQuery } from '@apollo/client';
+import { GET_RESA_FOR_COURSE } from '../../graphql/courses/GetFunctions';
 
 
 
 function Course() {
-    const router = useRouter();
     const {pageData, } = useContext(DataInPageContext)
     const [showAskConfirmPanel, setshowAskConfirmPanel] = useState(false);
-    const [reservations, setReservations] = useState()
     const [resa, setResa] = useState()
+    const [exit, setExit] = useState(false)
 
     const toggleAskConfirmPanel = (resaID) => {
         setResa(resaID)
@@ -27,12 +25,22 @@ function Course() {
     }
 
 
-    
+    const handleCloseConfirmation = () => {
+        setExit(true)
+        setTimeout(() => {
+            setshowAskConfirmPanel(!showAskConfirmPanel);
+            setExit(false)
+        }, 400)
+    }
 
-    useEffect(async() => {
-        const { data } = await loadResaForACourse(pageData._id)
-        setReservations(data.loadResaForAcourse)
-    }, [])
+
+    const { loading, error, data} =  useQuery(GET_RESA_FOR_COURSE, {
+        variables : {
+            courseId: pageData._id
+        }
+    })
+
+ 
 
 
 
@@ -45,7 +53,7 @@ function Course() {
             <main>
                 <div className="flex flex-col flex-auto w-screen">
                     {
-                        showAskConfirmPanel ? <PaymentAskConfirmation toggleAskConfirmPanel={toggleAskConfirmPanel} courseId={pageData._id} resa_id={resa} sellerId={pageData.userId}></PaymentAskConfirmation> : null
+                        showAskConfirmPanel ? <PaymentAskConfirmation exit={exit} toggleAskConfirmPanel={handleCloseConfirmation} courseId={pageData._id} resa_id={resa} sellerId={pageData.userId}></PaymentAskConfirmation> : null
                     }
                     <Nav/>
 
@@ -105,13 +113,10 @@ function Course() {
                                         <div className="text-center sm:pr-2 sm:py-2 items-center">
                                             <div className="bg-yellow-500 p0.5 w-36 mx-auto text-white text-sm font-montserrat">Instructeur</div>
                                             <div className="w-20 h-20 rounded-full inline-flex items-center justify-center bg-gray-200 text-gray-400 mt-6 ring-1 ring-red-400 hover:ring-red-600">
-                                                <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-10 h-10" viewBox="0 0 24 24">
-                                                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
-                                                    <circle cx="12" cy="7" r="4"></circle>
-                                                </svg>
+                                                <img src={pageData.poster.photoUrl} className="w-20 h-20 object-contain rounded-full ring-1 ring-black"></img>
                                             </div>
                                             <div className="flex flex-col items-center text-center justify-center">
-                                                <h2 className="font-medium title-font mt-4 text-gray-900 text-lg">Phoebe Caulfield</h2>
+                                                <h2 className="font-medium title-font mt-4 text-gray-900 text-lg">{pageData.poster.first_name} {pageData.poster.last_name}</h2>
                                                 <div className="w-12 h-1 bg-blue-500 rounded mt-2 mb-4"></div>
                                                 <p className="text-base">Raclette knausgaard hella meggs normcore williamsburg enamel pin sartorial venmo tbh hot chicken gentrify portland.</p>
                                             </div>
@@ -152,11 +157,12 @@ function Course() {
                                                         </tr>
                                                     </thead>
                                                     <tbody className="bg-white divide-y divide-gray-200">
-                                                        {
-                                                            reservations ? reservations.map((resa) => {
-                                                                return <ResaItem resa= {resa} toggleAskConfirmPanel={toggleAskConfirmPanel} key={resa._id}></ResaItem>
-                                                            }) : null
-                                                        }
+                                                            {
+                                                                data? data.loadResaForAcourse.map((_resa) => {
+                                                                    return <ResaItem resa= {_resa} toggleAskConfirmPanel={toggleAskConfirmPanel} key={_resa._id}></ResaItem>
+                                                                }) : null
+                                                            }
+                                                        
 
                                                         {/* <!-- More items... --> */}
                                                     </tbody>

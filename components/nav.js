@@ -7,13 +7,11 @@ import {
     useAuthUser
 } from 'next-firebase-auth'
 import { useEffect } from 'react'
-import FirebaseClient from '../Helpers/firebase'
 
 function Nav() {
-    FirebaseClient()
     const router = useRouter()
     const firebaseUser = useAuthUser()
-
+    
 
     useEffect(async() => {
         router.prefetch("/publish")
@@ -21,7 +19,7 @@ function Nav() {
     }, [])
 
     return (
-        <div className="flex flex-row h-16  justify-between p-1 bg-white sticky top-0">
+        <div className="flex flex-row h-16  justify-between p-1 bg-white sticky top-0 z-40">
             <div className="container mx-auto flex flex-wrap  flex-col md:flex-row items-center">
                 <button onClick={(() => router.push("/dashboard"))} className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0 overflow-hidden focus:outline-none">
                     <svg className="h-8 w-8" viewBox="0 0 636 644" fill="none" xmlns="http://www.w3.org/2000/svg">

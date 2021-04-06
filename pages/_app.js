@@ -1,5 +1,5 @@
 import '../styles/globals.css'
-import { useEffect, useState, useMemo, useLayoutEffect } from 'react'
+import { useEffect, useState, useMemo} from 'react'
 import { useRouter } from 'next/router'
 import * as gtag from '../Helpers/Gtag'
 import initAuth from '../utils/initAuth'
@@ -14,17 +14,22 @@ import client from '../Helpers/GraphQLClient'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import { loadUser } from '../Helpers/GraphQLFunctions'
+import NotificationProvider from '../components/notification/NotificationContext'
 
 initAuth()
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
 function MyApp({ Component, pageProps }) {
-  firebase.auth().onAuthStateChanged(async (_user) => {
-    if (_user) {
-      const {data} = await loadUser(_user.phoneNumber)
-      setUser(data.usersExist)
-      }
-  });
+
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(async (_user) => {
+      if (_user) {
+        const {data} = await loadUser(_user.uid)
+        setUser(data.usersExist)
+        }
+    });
+  }, [])
+
   const router = useRouter()
 
   const [user, setUser] = useState(null);
@@ -57,15 +62,19 @@ function MyApp({ Component, pageProps }) {
   return (
     <ApolloProvider client={client}>
       <UserContext.Provider value={providerValue}>
-        <DataInPageContext.Provider value={dataInPageProviderValue}>
-          <DataInBuyerContext.Provider value={dataInBuyerProviderValue}>
-            <DataInSeellerContext.Provider value={dataInSellerProviderValue}>
-            <Elements stripe={stripePromise}>
-              <Component {...pageProps} />
-            </Elements>
-            </DataInSeellerContext.Provider>
-          </DataInBuyerContext.Provider>
-        </DataInPageContext.Provider>
+        <NotificationProvider>
+          <DataInPageContext.Provider value={dataInPageProviderValue}>
+            <DataInBuyerContext.Provider value={dataInBuyerProviderValue}>
+              <DataInSeellerContext.Provider value={dataInSellerProviderValue}>
+              <Elements stripe={stripePromise}>
+                <Component {...pageProps} />
+              </Elements>
+              </DataInSeellerContext.Provider>
+            </DataInBuyerContext.Provider>
+          </DataInPageContext.Provider>
+        </NotificationProvider>
+
+        
     </UserContext.Provider>
     </ApolloProvider>
   )

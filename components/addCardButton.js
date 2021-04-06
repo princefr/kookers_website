@@ -1,27 +1,27 @@
 
 
-import React, { useContext, useState } from "react";
+import React, {useState } from "react";
 import onClickOutside from "react-onclickoutside";
 import {CardElement, useStripe, useElements} from '@stripe/react-stripe-js';
-import { UserContext } from "../utils/UserContext";
-import { attachPaymentToCustomer } from "../Helpers/GraphQLFunctions";
+import { useMutation } from "@apollo/client";
+import { ADD_METHOD_TO_USER } from "../graphql/paymentmethod/AddFunction";
+import { useNotification } from "./notification/NotificationContext";
 
 
 
 
 
-function AddCardButton() {
-
-    // stripe business logic
+function AddCardButton({refetch, firebaseUid}) {
     const stripe = useStripe();
     const elements = useElements();
 
     const [showModal, setshowModal] = useState(false);
     const toggleModal = () => setshowModal(!showModal);
     AddCardButton.handleClickOutside = () => setshowModal(false)
+    const [AddCardToUser, {data, loading, error}] = useMutation(ADD_METHOD_TO_USER)
+    const dispatch = useNotification()
 
-    const {user, } = useContext(UserContext);
-    const [isLoading , setIsLoading]  = useState(false);
+    
     const [isFormFisabled, setIsFormFisabled] = useState(true)
 
 
@@ -37,29 +37,44 @@ function AddCardButton() {
     // handle the payment processing
     const handleCardAdded = async(event) => {
         event.preventDefault();
-        setIsLoading(true)
-        // Get a reference to a mounted CardElement. Elements knows how
-        // to find your CardElement because there can only ever be one of
-        // each type of element.
         const cardElement = elements.getElement(CardElement);
         const {error, paymentMethod} = await stripe.createPaymentMethod({
             type: 'card',
             card: cardElement,
         });
         if (error) {
-            console.log('[error]', error);
-            setIsLoading(false)
+            dispatch({
+                payload : {
+                    type: "ERROR",
+                    title: "Cartes de paiements",
+                    message:"Une erreur s'est produite lors de l'ajout de votre nouvelle carte. Veuillez reessayer."
+                }
+            })
           } else {
-              console.log('[PaymentMethod]', paymentMethod);
-              attachPaymentToCustomer(paymentMethod.id, user.customerId).then((updateduser) => {
-                console.log(updateduser)
-                // show success
-                setIsLoading(false)
-              }).catch((err) => {
-                  console.log(err)
-                setIsLoading(false)
-              })
-            
+            AddCardToUser({
+                variables : {
+                    firebaseUid: firebaseUid,
+                    methode_id: paymentMethod.id
+                }
+            }).then(() => {
+                setshowModal(false)
+                refetch()
+                dispatch({
+                    payload : {
+                        type: "SUCCESS",
+                        title: "Cartes de paiements",
+                        message:"Votre disposez d'une nouvelle carte pour effectuer vos achats."
+                    }
+                })
+            }).catch(() => {
+                dispatch({
+                    payload : {
+                        type: "ERROR",
+                        title: "Cartes de paiements",
+                        message:"Une erreur s'est produite lors de l'ajout de votre nouvelle carte. Veuillez reessayer."
+                    }
+                })
+            })
           }
     }
 
@@ -74,7 +89,7 @@ function AddCardButton() {
 
             </button>
             {
-                showModal ? <div className="fixed z-10 inset-0 overflow-y-auto">
+                showModal ? <div className="fixed z-50 inset-0 overflow-y-auto">
                     <div className="flex items-end justify-center min-h-screen  px-4 pb-20 text-center sm:block sm:p-0">
                         <div className="fixed inset-0 transition-opacity" onClick={toggleModal} aria-hidden="true">
                             <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
@@ -94,20 +109,20 @@ function AddCardButton() {
                                 </div>
 
 
-                                <div className="flex flex-col items-start space-y-3 px-14">
+                                <div className="flex flex-col items-start space-y-3 px-4">
                                     <div className="text-2xl font-montserrat font-semibold top-0 sticky">Ajouter une carte</div>
 
-                                    <div className="pt-5">
-                                        <CardElement onChange={(e) => handleInputChange(e.empty)} className="w-96 text-lg font-montserrat border bg-gray-200 h-10 items-center p-2" style={{base: {fontSize: '18px'}}} onReady={(el) => el.focus()}/>
+                                    <div className="pt-5 w-full flex py-2">
+                                        <CardElement onChange={(e) => handleInputChange(e.empty)} className="w-full text-lg font-montserrat border bg-gray-200 h-10 items-center p-2.5" style={{base: {fontSize: '18px'}}} onReady={(el) => el.focus()}/>
                                     </div>
 
                                     <div className="flex flex-row pt-10 justify-end w-full">
                                         <button onClick={handleCardAdded} disabled={isFormFisabled}
                                             type="submit"
-                                            className="transition ease-out duration-700 w-full mr-5 flex justify-center space-x-4 px-5 py-2 overflow-hidden focus:outline-none focus:shadow-outline bg-teal-400 hover:bg-gray-800 bg-black text-white text-xs items-center font-medium disabled:opacity-40"
+                                            className="transition ease-out duration-700 w-full  flex justify-center space-x-4 px-5 py-2 overflow-hidden focus:outline-none focus:shadow-outline bg-teal-400 hover:bg-gray-800 bg-black text-white text-xs items-center font-medium disabled:opacity-40"
                                         >
                                             {
-                                                isLoading ? <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                loading ? <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                             </svg> : null
