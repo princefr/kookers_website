@@ -5,7 +5,7 @@ import Head from 'next/head'
 import { useContext, useState } from "react";
 import PaymentAskConfirmation from '../../components/payment_confirmation_panel'
 import Nav from '../../components/nav'
-import { AuthAction, withAuthUser } from 'next-firebase-auth';
+import { AuthAction, withAuthUser, withAuthUserTokenSSR } from 'next-firebase-auth';
 import { DataInPageContext } from '../../utils/DataInPageContext';
 import ResaItem from '../../components/resaItem';
 import { useQuery } from '@apollo/client';
@@ -178,6 +178,33 @@ function Course() {
         </div>
     )
 }
+
+export const getServerSideProps = withAuthUserTokenSSR({
+    whenAuthed: AuthAction.RENDER,
+    whenUnauthed: AuthAction.REDIRECT_TO_LOGIN
+  })(async ({AuthUser}) => {
+    await firebaseAdmin.auth().getUser(AuthUser.id)
+    const { data } = await loadUser(AuthUser.id).catch((reason) => {
+        console.log(reason)
+      })
+
+      if(data.usersExist == null){
+          return {
+            redirect: {
+              permanent: false,
+              destination: "/"
+            }
+          }
+      }
+
+
+
+      return {
+        props: {
+            
+        }
+      }
+  })
 
 
 
