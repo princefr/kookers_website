@@ -33,7 +33,7 @@ function Courses({firebaseUid, loading, data, error}) {
                         <div className="flex flex-col flex-auto">
                             <div className="flex-col grid grid-flow-row grid-cols-4 grid-rows-4 gap-1">
                                 {
-                                    data.loadCourseHome ? data.loadCourseHome.map((course) => {
+                                    data ? data.loadCourseHome.map((course) => {
                                         return <a key={course._id} onClick={(() => HandleNavigation(course))}>
                                             <CourseItem course={course} key={course._id}/>
                                         </a>
