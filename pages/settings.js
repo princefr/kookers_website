@@ -3,6 +3,7 @@ import Head from 'next/head'
 import Nav from "../components/nav"
 import React, {  useContext} from "react";
 import { UserContext } from '../utils/UserContext';
+import { AuthAction, withAuthUser, withAuthUserTokenSSR } from 'next-firebase-auth';
 
 
 
@@ -52,5 +53,31 @@ function Settings() {
 }
 
 
+export const getServerSideProps = withAuthUserTokenSSR({
+    whenAuthed: AuthAction.RENDER,
+    whenUnauthed: AuthAction.REDIRECT_TO_LOGIN
+  })(async ({AuthUser}) => {
+    await firebaseAdmin.auth().getUser(AuthUser.id)
+    const { data } = await loadUser(AuthUser.id).catch((reason) => {
+        console.log(reason)
+      })
 
-export default Settings
+      if(data.usersExist == null){
+          return {
+            redirect: {
+              permanent: false,
+              destination: "/"
+            }
+          }
+      }
+
+
+
+      return {
+        props: {
+            
+        }
+      }
+  })
+
+export default withAuthUser({ whenAuthed: AuthAction.RENDER, whenUnauthed: AuthAction.REDIRECT_TO_LOGIN})(Settings)
