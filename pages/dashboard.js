@@ -98,7 +98,9 @@ function Dashboard({auth_id}) {
                     </div>
 
                     <div className=" flex flex-col mt-6">
-                        <Courses firebaseUid={auth_id} loading={loading} error={error} data={data}></Courses>
+                        {
+                          data ? <Courses firebaseUid={auth_id} loading={loading} error={error} data={data}></Courses> : null
+                        }
                     </div>
                 </div>
             </div>

@@ -74,37 +74,7 @@ export const buyAcours = async (courseId, resa_id, quantity, userId, sellerId) =
     })
 }
 
-export const loadCourseHome = async (userId) => {
-    return client.query({
-        query: gql`
-            query LoadCourseHome($userId: ID!){
-                loadCourseHome(userId: $userId) {
-                    _id
-                    name
-                    price
-                    photoUrl
-                    duration
-                    description
-                    ingredients {
-                        name
-                        quantity
-                    }
-                    plate_type
-                    cuisine_provenance
-                    food_preferences
-                    userId
-                    shortId
-                    createdAt
-                    updatedAt
-                    difficulty
-                }
-            }
-        `,
-        variables: {
-            userId: userId
-        }
-    })
-}
+
 
 
 export const getCoursesMadeByUser = async (firebaseUid) => {
