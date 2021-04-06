@@ -21,6 +21,12 @@ export const GET_HOME_DATA = gql`
             createdAt
             updatedAt
             difficulty
+            poster {
+                first_name
+                last_name
+                photoUrl
+                is_online
+            }
         }
     }
 `
