@@ -9,6 +9,7 @@ import OnlineAddIngredientsComponents from '../../components/OnlineIngredientsCo
 import OnlineIngredient from '../../components/OnlineIngredientsItem'
 import OnlineAddDateCourse from '../../components/OnlineAddDateCourse';
 import SellerResaDateComponent from '../../components/SellerResaDateComponent';
+import { AuthAction, withAuthUser, withAuthUserTokenSSR } from 'next-firebase-auth';
 
 // import Chip from '../../components/chips'
 
@@ -123,5 +124,20 @@ function Sell() {
 }
 
 
+export const getServerSideProps = withAuthUserTokenSSR({
+    whenAuthed: AuthAction.RENDER,
+    whenUnauthed: AuthAction.REDIRECT_TO_LOGIN
+  })(async ({AuthUser}) => {
+      return {
+        props: {
+            auth_id: AuthUser.id
+        }
+      }
+  })
 
-export default Sell
+
+
+export default withAuthUser({whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN, whenUnauthed: AuthAction.REDIRECT_TO_LOGIN})(Sell)
+
+
+
