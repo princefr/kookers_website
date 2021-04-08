@@ -1,10 +1,6 @@
 import gql from "graphql-tag";
 
 
-
-
-
-
 export const GET_CARDS = gql `
     query LoadCartList($firebaseUid: String!) {
         loadCartList(firebaseUid: $firebaseUid){
