@@ -9,6 +9,7 @@ import { ApolloClient, InMemoryCache} from '@apollo/client';
 //   httplink,
 // ): httplink;
 
+// graphql client
 const client = new ApolloClient({
     uri: process.env.NEXT_PUBLIC_GRAPHQL_URL,
     cache: new InMemoryCache()
